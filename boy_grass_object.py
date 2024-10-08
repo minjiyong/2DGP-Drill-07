@@ -28,14 +28,14 @@ class Boy:
 
 class Ball:
     def __init__(self):
-        self.x, self.y = random.randint(100, 599), 900
+        self.x, self.y = random.randint(50, 700), 599
         self.num = random.randint(1, 2)
         if self.num == 1:
             self.image = load_image('ball21x21.png')
         elif self.num == 2:
             self.image = load_image('ball41x41.png')
 
-        self.i = random.randint(4, 14)
+        self.i = random.randint(2, 14)
     def update(self):
         if self.num == 1:
             if self.y > 40:
