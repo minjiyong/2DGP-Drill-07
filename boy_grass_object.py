@@ -26,28 +26,28 @@ class Boy:
     def draw(self):
         self.image.clip_draw(self.frame*100, 0, 100, 100, self.x, self.y)
 
-class Ball21:
+class Ball:
     def __init__(self):
         self.x, self.y = random.randint(100, 599), 900
-        self.image = load_image('ball21x21.png')
-        self.i = random.randint(1, 5)
-    def update(self):
-        if self.y > 40:
-            self.y -= self.i
-    def draw(self):
-        self.image.clip_draw(0, 0, 21, 21, self.x, self.y)
+        self.num = random.randint(1, 2)
+        if self.num == 1:
+            self.image = load_image('ball21x21.png')
+        elif self.num == 2:
+            self.image = load_image('ball41x41.png')
 
-class Ball41:
-    def __init__(self):
-        self.x, self.y = random.randint(100, 599), 900
-        self.image = load_image('ball41x41.png')
-        self.i = random.randint(5, 15)
+        self.i = random.randint(4, 14)
     def update(self):
-        if self.y > 50:
-            self.y -= self.i
-
+        if self.num == 1:
+            if self.y > 40:
+                self.y -= self.i
+        elif self.num == 2:
+            if self.y > 50:
+                self.y -= self.i
     def draw(self):
-        self.image.clip_draw(0, 0, 41, 41, self.x, self.y)
+        if self.num == 1:
+            self.image.clip_draw(0, 0, 21, 21, self.x, self.y)
+        elif self.num == 2:
+            self.image.clip_draw(0, 0, 41, 41, self.x, self.y)
 
 def handle_events():
     global running
@@ -62,10 +62,8 @@ def update_world():
     grass.update()
     for boy in team:
         boy.update()
-    for ball21 in team2:
-        ball21.update()
-    for ball41 in team2:
-        ball41.update()
+    for ball in team2:
+        ball.update()
     for o in world:
         o.update()
     pass
@@ -75,10 +73,8 @@ def render_world():
     grass.draw()
     for boy in team:
         boy.draw()
-    for ball21 in team2:
-        ball21.draw()
-    for ball41 in team2:
-        ball41.draw()
+    for ball in team2:
+        ball.draw()
     for o in world:
         o.draw()
     update_canvas()
@@ -88,7 +84,6 @@ def reset_world(): # 초기화하는 함수
     global grass
     global team
     global team2
-    global team3
     global world
 
     running = True
@@ -96,11 +91,9 @@ def reset_world(): # 초기화하는 함수
     grass = Grass() # Grass 클래스를 이용해서 grass 객체 생성
     world.append(grass)
     team = [ Boy() for i in range(11)] # 소년 11명으로 된 팀 생성
-    team2 = [ Ball21() for i in range(11)]
-    team3 = [ Ball41() for i in range(11)]
+    team2 = [ Ball() for i in range(21)]
     world += team
     world += team2
-    world += team3
 
 open_canvas()
 
